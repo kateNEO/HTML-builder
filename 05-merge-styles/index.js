@@ -11,7 +11,7 @@ async function mergeStyles() {
       if (file.isFile() && file.name.indexOf('css') >= 0) {
         let curPath = path.join(stylesDir, file.name);
         let data = await fs.readFile(curPath, 'utf-8');
-        cssRules += data.toString();
+        cssRules += data;
       }
       await fs.writeFile(newStylesFile, cssRules);
     }
