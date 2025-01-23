@@ -20,7 +20,9 @@ fs.readdir(pathToDir, { withFileTypes: true }, (err, files) => {
             process.stdout.write(err);
           } else {
             size = stats.size;
-            process.stdout.write(`${name} - ${ext} - ${size / 1024} Kb \n`);
+            process.stdout.write(
+              `${name} - ${ext} - ${Math.floor(size / 1024)} Kb \n`,
+            );
           }
         });
       }

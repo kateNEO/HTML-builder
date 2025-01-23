@@ -16,18 +16,21 @@ async function buildPage() {
     await fsProm.mkdir(pathProjectDistDir, { recursive: true });
     await fsProm.copyFile(pathTemplateFile, pathIndexFile);
     const componentsList = await fsProm.readdir(componentsDir);
-    for (const file of componentsList) {
-      let contentHtml = await fsProm.readFile(pathIndexFile, 'utf-8');
-      let nameComponent = file.split('.').splice(0, 1).join('');
+    // for (const file of componentsList) {
+    console.log(componentsList);
+    let newHtml = '';
+    let contentHtml = await fsProm.readFile(pathIndexFile, 'utf-8');
+    for (let i = 0; i < componentsList.length; i++) {
+      let nameComponent = componentsList[i].split('.').splice(0, 1).join('');
       const contentComponent = await fsProm.readFile(
-        path.join(componentsDir, file),
+        path.join(componentsDir, componentsList[i]),
       );
-      contentHtml = contentHtml.replace(
-        `{{${nameComponent}}}`,
-        contentComponent.toString(),
-      );
-      writeStream.write(contentHtml);
+      let removePart = `{{${nameComponent}}}`;
+      newHtml = contentHtml.replace(removePart, contentComponent.toString());
+      contentHtml = newHtml;
+      // writeStream.
     }
+    writeStream.write(newHtml);
   } catch (err) {
     console.error(err);
   }
